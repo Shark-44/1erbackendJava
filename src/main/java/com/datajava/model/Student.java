@@ -1,18 +1,41 @@
 package com.datajava.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
+@Table(name = "student")
 public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "idStudent")
     private int idStudent;
 
-    private String Name;
-    private String Firstname;
-    private Date Birthday;
-    private String Photo;
+    @Column(name = "Name")
+    private String name;
+
+    @Column(name = "Firstname")
+    private String firstname;
+
+    @Column(name = "Birthday")
+    private Date birthday;
+
+    @Column(name = "Photo")
+    private String photo;
+
+    @ManyToMany
+    @JoinTable(
+        name = "student_has_langage",
+        joinColumns = @JoinColumn(name = "Student_idStudent"),
+        inverseJoinColumns = @JoinColumn(name = "Langage_idLangage")
+    )
+    @JsonManagedReference
+   
+    private Set<Langage> langages;
 
     // Getters and setters
     public int getIdStudent() {
@@ -24,34 +47,42 @@ public class Student {
     }
 
     public String getName() {
-        return Name;
+        return name;
     }
 
-    public void setName(String Name) {
-        this.Name = Name;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getFirstname() {
-        return Firstname;
+        return firstname;
     }
 
-    public void setFirstname(String Firstname) {
-        this.Firstname = Firstname;
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
     }
 
     public Date getBirthday() {
-        return Birthday;
+        return birthday;
     }
 
-    public void setBirthday(Date Birthday) {
-        this.Birthday = Birthday;
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
     }
 
     public String getPhoto() {
-        return Photo;
+        return photo;
     }
 
-    public void setPhoto(String Photo) {
-        this.Photo = Photo;
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
+
+    public Set<Langage> getLangages() {
+        return langages;
+    }
+
+    public void setLangages(Set<Langage> langages) {
+        this.langages = langages;
     }
 }

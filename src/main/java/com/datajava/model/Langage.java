@@ -1,6 +1,9 @@
 package com.datajava.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "langage")
@@ -11,7 +14,12 @@ public class Langage {
     private int idLangage;
 
     @Column(name = "NameLangage")
-    private String NameLangage;
+    private String nameLangage;
+
+    @ManyToMany(mappedBy = "langages")
+    @JsonBackReference
+
+    private Set<Student> students;
 
     // Getters and setters
     public int getIdLangage() {
@@ -23,10 +31,19 @@ public class Langage {
     }
 
     public String getNameLangage() {
-        return NameLangage;
+        return nameLangage;
     }
 
-    public void setNameLangage(String NameLangage) {
-        this.NameLangage = NameLangage;
+    public void setNameLangage(String nameLangage) {
+        this.nameLangage = nameLangage;
+    }
+
+    
+    public Set<Student> getStudents() {
+        return students;
+    }
+
+    public void setStudents(Set<Student> students) {
+        this.students = students;
     }
 }

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/langages")
@@ -17,9 +18,24 @@ public class LangageController {
     public List<Langage> getAllLangages() {
         return langageService.getAllLangages();
     }
-
+    
+    @GetMapping("/{id}")
+    public Optional<Langage> getLangageById(@PathVariable int id) {
+        return langageService.getLangageById(id);
+    }
+    
     @PostMapping
     public Langage createLangage(@RequestBody Langage langage) {
         return langageService.createLangage(langage);
+    }
+    
+    @PutMapping("/{id}")
+    public Langage updateLangage(@PathVariable int id, @RequestBody Langage langageDetails) {
+        return langageService.updateLangage(id, langageDetails);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteLangage(@PathVariable int id) {
+        langageService.deleteLangage(id);
     }
 }
