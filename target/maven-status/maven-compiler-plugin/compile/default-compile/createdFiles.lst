@@ -1,13 +1,13 @@
 com\datajava\service\SchoolService.class
-com\datajava\repository\StudientRepository.class
-com\datajava\controller\StudientController.class
 com\datajava\DatajavaApplication.class
-com\datajava\model\Studient.class
+com\datajava\repository\StudentRepository.class
+com\datajava\controller\StudentController.class
 com\datajava\controller\SchoolController.class
 com\datajava\model\School.class
 com\datajava\service\LangageService.class
 com\datajava\controller\LangageController.class
+com\datajava\model\Student.class
 com\datajava\repository\SchoolRepository.class
+com\datajava\service\StudentService.class
 com\datajava\model\Langage.class
 com\datajava\repository\LangageRepository.class
-com\datajava\service\StudientService.class

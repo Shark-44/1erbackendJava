@@ -26,18 +26,18 @@ public class School {
     }
 
     public String getNameSchool() {
-        return nameSchool;
+        return NameSchool;
     }
 
-    public void setNameSchool(String nameSchool) {
-        this.nameSchool = nameSchool;
+    public void setNameSchool(String NameSchool) {
+        this.NameSchool = NameSchool;
     }
 
     public String getPhotoSchool() {
-        return photoSchool;
+        return PhotoSchool;
     }
 
-    public void setPhotoSchool(String photoSchool) {
-        this.photoSchool = photoSchool;
+    public void setPhotoSchool(String PhotoSchool) {
+        this.PhotoSchool = PhotoSchool;
     }
 }
