@@ -21,6 +21,10 @@ public class Langage {
 
     private Set<Student> students;
 
+    @ManyToMany(mappedBy = "langages")
+    @JsonBackReference
+    private Set<School> schools;
+    
     // Getters and setters
     public int getIdLangage() {
         return idLangage;

@@ -34,7 +34,12 @@ src/main/java/com/datajava/controller
 
 Sous datajava le fichier pom.xml (pour la gesttion des dépendances )
 
-2ieme étape Liaison Many-to-Many entre studient et langage
+2ieme étape Liaison Many-to-Many entre student et langage
 
-1 etudiant apprend 1 ou plusieurs languages et
-1 language peut etre appris par 0 ou plusieurs étudiants 
+1 etudiant apprend 1 ou plusieurs langues et
+1 langue peut etre appris par 0 ou plusieurs étudiants 
+
+Liaison Many-to-Many entre school et langage
+
+1 langue peut être enseignée par plusieurs écoles
+et 1 école peut enseigner une ou plusieurs langues

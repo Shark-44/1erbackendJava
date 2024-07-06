@@ -1,6 +1,9 @@
 package com.datajava.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "school")
@@ -15,6 +18,14 @@ public class School {
     
     @Column(name = "PhotoSchool")
     private String PhotoSchool;
+
+    @ManyToMany
+    @JoinTable(
+        name = "school_langage",
+        joinColumns = @JoinColumn(name = "idSchool"),
+        inverseJoinColumns = @JoinColumn(name = "idLangage")
+    )
+    private Set<Langage> langages;
 
     // Getters and setters
     public int getIdSchool() {
