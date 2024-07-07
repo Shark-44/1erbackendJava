@@ -45,3 +45,5 @@ Liaison Many-to-Many entre school et langage
 et 1 école peut enseigner une ou plusieurs langues
 
 3) Suite à une mauvaise compréhension de la réponse d'une requete GET, je découvre DTO(Data Transfer Objects). Un test pour comprendre.
+
+4) Liaison one-to-many entre student et school

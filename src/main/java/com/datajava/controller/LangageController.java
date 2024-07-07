@@ -42,6 +42,7 @@ public class LangageController {
     public void deleteLangage(@PathVariable int id) {
         langageService.deleteLangage(id);
     }
+    //trouver tout les étudiants apprenant un langage nommé par id
     @GetMapping("/{langageId}/students")
     public Set<Student> getStudentsByLangageId(@PathVariable int langageId) {
         return langageService.getStudentsByLangageId(langageId);
@@ -50,6 +51,8 @@ public class LangageController {
     public Set<School> getSchoolsByLangageId(@PathVariable int langageId) {
         return langageService.getSchoolsByLangageId(langageId);
     }*/
+
+    // trouver toutes le écoles enseignant un langage nommé par id
     @GetMapping("/{langageId}/schools")
     public Set<SchoolDTO> getSchoolsByLangageId(@PathVariable int langageId) {
         return langageService.getSchoolsByLangageId(langageId);

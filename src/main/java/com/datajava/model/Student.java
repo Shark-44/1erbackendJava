@@ -1,7 +1,7 @@
 package com.datajava.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -36,6 +36,11 @@ public class Student {
     @JsonManagedReference
    
     private Set<Langage> langages;
+
+    @ManyToOne
+    @JoinColumn(name = "school_id", nullable = false)
+    @JsonBackReference
+    private School school;
 
     // Getters and setters
     public int getIdStudent() {
@@ -84,5 +89,13 @@ public class Student {
 
     public void setLangages(Set<Langage> langages) {
         this.langages = langages;
+    }
+
+    public School getSchool() {
+        return school;
+    }
+
+    public void setSchool(School school) {
+        this.school = school;
     }
 }

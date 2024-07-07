@@ -1,6 +1,7 @@
 package com.datajava.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -26,6 +27,10 @@ public class School {
         inverseJoinColumns = @JoinColumn(name = "idLangage")
     )
     private Set<Langage> langages;
+
+    @OneToMany(mappedBy = "school", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private Set<Student> students;
 
     public Set<Langage> getLangages() {
         return langages;
@@ -59,5 +64,13 @@ public class School {
 
     public void setPhotoSchool(String PhotoSchool) {
         this.PhotoSchool = PhotoSchool;
+    }
+
+    public Set<Student> getStudents() {
+        return students;
+    }
+
+    public void setStudents(Set<Student> students) {
+        this.students = students;
     }
 }

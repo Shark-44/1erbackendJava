@@ -39,7 +39,7 @@ public class SchoolController {
     public void deleteSchool(@PathVariable int id) {
         schoolService.deleteSchool(id);
     }
-
+    // Trouver tout les langages enseignés par une école nommé par id
     @GetMapping("/{id}/langages")
     public Set<Langage> getLangagesBySchoolId(@PathVariable int id) {
         return schoolService.getLangagesBySchoolId(id);

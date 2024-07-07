@@ -44,16 +44,11 @@ public class StudentController {
     public void deleteStudent(@PathVariable int id) {
         studentService.deleteStudent(id);
     }
+    // Trouver tout les langages etudié par un étudiant nommé par son id
     @GetMapping("/{id}/langages")
     public Set<Langage> getStudentLangages(@PathVariable int id) {
         return studentService.getLangagesByStudentId(id);
     }
-    @GetMapping("/students/langages")
-    public Set<Langage> getLangagesByStudentId(@RequestParam int studentId) {
-        return studentService.getLangagesByStudentId(studentId);
-    }
-    @GetMapping("/{langageId}/students")
-    public Set<Student> getStudentsByLangageId(@PathVariable int langageId) {
-        return studentService.getStudentsByLangageId(langageId);
-    }
+    
+
 }
