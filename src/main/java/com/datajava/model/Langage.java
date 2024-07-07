@@ -42,6 +42,13 @@ public class Langage {
         this.nameLangage = nameLangage;
     }
 
+    public Set<School> getSchools() {
+        return schools;
+    }
+
+    public void setSchools(Set<School> schools) {
+        this.schools = schools;
+    }
     
     public Set<Student> getStudents() {
         return students;

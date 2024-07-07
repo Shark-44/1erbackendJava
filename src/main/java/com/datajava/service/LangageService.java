@@ -1,11 +1,15 @@
 package com.datajava.service;
 
+import com.datajava.model.School; 
+import com.datajava.dto.SchoolDTO;
 import com.datajava.model.Student;
+import com.datajava.service.LangageService;
 import com.datajava.model.Langage;
 import com.datajava.repository.LangageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.stream.Collectors;
 import java.util.List;
 import java.util.Set;
 import java.util.Optional;
@@ -41,5 +45,26 @@ public class LangageService {
         Langage langage = langageRepository.findById(langageId)
                 .orElseThrow(() -> new RuntimeException("Langage not found"));
         return langage.getStudents();
+    }
+    /*public Set<School> getSchoolsByLangageId(int langageId) {
+        Langage langage = langageRepository.findById(langageId)
+                .orElseThrow(() -> new RuntimeException("Langage not found"));
+        return langage.getSchools();
+    } INUTILE  avec DTO*/
+
+    public Set<SchoolDTO> getSchoolsByLangageId(int langageId) {
+        Langage langage = langageRepository.findById(langageId)
+                .orElseThrow(() -> new RuntimeException("Langage not found"));
+        return langage.getSchools().stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toSet());
+    }
+
+    private SchoolDTO convertToDTO(School school) {
+        SchoolDTO schoolDTO = new SchoolDTO();
+        schoolDTO.setIdSchool(school.getIdSchool());
+        schoolDTO.setNameSchool(school.getNameSchool());
+        schoolDTO.setPhotoSchool(school.getPhotoSchool());
+        return schoolDTO;
     }
 }

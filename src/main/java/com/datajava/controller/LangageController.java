@@ -1,5 +1,7 @@
 package com.datajava.controller;
 
+
+import com.datajava.dto.SchoolDTO;
 import com.datajava.model.Student;
 import com.datajava.model.Langage;
 import com.datajava.service.LangageService;
@@ -43,5 +45,13 @@ public class LangageController {
     @GetMapping("/{langageId}/students")
     public Set<Student> getStudentsByLangageId(@PathVariable int langageId) {
         return langageService.getStudentsByLangageId(langageId);
+    }
+    /*@GetMapping("/{langageId}/schools")
+    public Set<School> getSchoolsByLangageId(@PathVariable int langageId) {
+        return langageService.getSchoolsByLangageId(langageId);
+    }*/
+    @GetMapping("/{langageId}/schools")
+    public Set<SchoolDTO> getSchoolsByLangageId(@PathVariable int langageId) {
+        return langageService.getSchoolsByLangageId(langageId);
     }
 }
