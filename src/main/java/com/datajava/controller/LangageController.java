@@ -1,11 +1,13 @@
 package com.datajava.controller;
 
+import com.datajava.model.Student;
 import com.datajava.model.Langage;
 import com.datajava.service.LangageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 import java.util.Optional;
 
 @RestController
@@ -37,5 +39,9 @@ public class LangageController {
     @DeleteMapping("/{id}")
     public void deleteLangage(@PathVariable int id) {
         langageService.deleteLangage(id);
+    }
+    @GetMapping("/{langageId}/students")
+    public Set<Student> getStudentsByLangageId(@PathVariable int langageId) {
+        return langageService.getStudentsByLangageId(langageId);
     }
 }

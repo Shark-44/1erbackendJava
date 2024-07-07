@@ -21,11 +21,20 @@ public class School {
 
     @ManyToMany
     @JoinTable(
-        name = "school_langage",
+        name = "school_has_langage",
         joinColumns = @JoinColumn(name = "idSchool"),
         inverseJoinColumns = @JoinColumn(name = "idLangage")
     )
     private Set<Langage> langages;
+
+    public Set<Langage> getLangages() {
+        return langages;
+    }
+
+    public void setLangages(Set<Langage> langages) {
+        this.langages = langages;
+    }
+
 
     // Getters and setters
     public int getIdSchool() {

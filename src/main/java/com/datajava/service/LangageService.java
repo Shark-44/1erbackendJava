@@ -1,11 +1,13 @@
 package com.datajava.service;
 
+import com.datajava.model.Student;
 import com.datajava.model.Langage;
 import com.datajava.repository.LangageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 import java.util.Optional;
 
 @Service
@@ -17,8 +19,8 @@ public class LangageService {
         return langageRepository.findAll();
     }
 
-    public Optional<Langage> getLangageById(int id) {
-        return langageRepository.findById(id);
+    public Optional<Langage> getLangageById(int langageId) {
+        return langageRepository.findById(langageId);
     }
 
     public Langage createLangage(Langage langage) {
@@ -34,5 +36,10 @@ public class LangageService {
     public void deleteLangage(int id) {
         Langage langage = langageRepository.findById(id).orElseThrow(() -> new RuntimeException("Langage not found"));
         langageRepository.delete(langage);
+    }
+    public Set<Student> getStudentsByLangageId(int langageId) {
+        Langage langage = langageRepository.findById(langageId)
+                .orElseThrow(() -> new RuntimeException("Langage not found"));
+        return langage.getStudents();
     }
 }

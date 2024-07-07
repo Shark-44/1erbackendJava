@@ -1,12 +1,16 @@
 package com.datajava.service;
 
 import com.datajava.model.Student;
+import com.datajava.model.Langage;
+
 import com.datajava.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class StudentService {
@@ -39,4 +43,17 @@ public class StudentService {
         Student student = studentRepository.findById(id).orElseThrow(() -> new RuntimeException("Student not found"));
         studentRepository.delete(student);
     }
+
+    public Set<Langage> getLangagesByStudentId(int id) {
+        Student student = studentRepository.findById(id).orElseThrow(() -> new RuntimeException("Student not found"));
+        return student.getLangages();
+    }
+
+    public Set<Student> getStudentsByLangageId(int langageId) {
+        return studentRepository.findAll().stream()
+                .filter(student -> student.getLangages().stream()
+                        .anyMatch(langage -> langage.getIdLangage() == langageId))
+                .collect(Collectors.toSet());
+    }
 }
+

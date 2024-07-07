@@ -43,3 +43,5 @@ Liaison Many-to-Many entre school et langage
 
 1 langue peut être enseignée par plusieurs écoles
 et 1 école peut enseigner une ou plusieurs langues
+
+ajout de méthodes.
