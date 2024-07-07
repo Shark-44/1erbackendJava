@@ -2,6 +2,7 @@ package com.datajava.controller;
 
 import com.datajava.model.Langage;
 import com.datajava.model.School;
+import com.datajava.model.Student;
 import com.datajava.service.SchoolService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -43,5 +44,10 @@ public class SchoolController {
     @GetMapping("/{id}/langages")
     public Set<Langage> getLangagesBySchoolId(@PathVariable int id) {
         return schoolService.getLangagesBySchoolId(id);
+    }
+    // trouver tout les éleves d'une école
+    @GetMapping("/{id}/students")
+    public Set<Student> getStudentsBySchoolId(@PathVariable int id) {
+        return schoolService.getStudentsBySchoolId(id);
     }
 }

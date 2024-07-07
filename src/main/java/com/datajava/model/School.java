@@ -1,6 +1,6 @@
 package com.datajava.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
@@ -29,7 +29,7 @@ public class School {
     private Set<Langage> langages;
 
     @OneToMany(mappedBy = "school", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
+    @JsonIgnore
     private Set<Student> students;
 
     public Set<Langage> getLangages() {

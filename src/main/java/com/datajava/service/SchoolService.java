@@ -1,7 +1,9 @@
 package com.datajava.service;
 
 import com.datajava.model.Langage;
+import com.datajava.model.Student;
 import com.datajava.model.School;
+
 import com.datajava.repository.SchoolRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -46,5 +48,10 @@ public class SchoolService {
         School school = schoolRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("School not found"));
         return school.getLangages();
+    }
+
+    public Set<Student> getStudentsBySchoolId(int schoolId) {
+        School school = schoolRepository.findById(schoolId).orElseThrow(() -> new RuntimeException("School not found"));
+        return school.getStudents();
     }
 }

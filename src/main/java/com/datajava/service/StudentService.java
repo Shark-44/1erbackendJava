@@ -2,6 +2,7 @@ package com.datajava.service;
 
 import com.datajava.model.Student;
 import com.datajava.model.Langage;
+import com.datajava.model.School;
 
 import com.datajava.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,5 +56,15 @@ public class StudentService {
                         .anyMatch(langage -> langage.getIdLangage() == langageId))
                 .collect(Collectors.toSet());
     }
+    public School getSchoolByStudentId(int studentId) {
+        Student student = studentRepository.findById(studentId).orElse(null);
+
+        if (student == null) {
+            return null;
+        }
+
+        return student.getSchool();
+    }
+
 }
 

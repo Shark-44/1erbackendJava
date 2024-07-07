@@ -2,6 +2,7 @@ package com.datajava.controller;
 
 import com.datajava.model.Student;
 import com.datajava.model.Langage;
+import com.datajava.model.School;
 import com.datajava.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -50,5 +51,16 @@ public class StudentController {
         return studentService.getLangagesByStudentId(id);
     }
     
+    // Chercher dans quel ecole est inscrit un étudiant par id
+    @GetMapping("/{id}/school")
+    public School getSchoolByStudentId(@PathVariable int id) {
+        School school = studentService.getSchoolByStudentId(id);
+
+        if (school == null) {
+            throw new RuntimeException("L'étudiant avec l'ID " + id + " n'a pas été trouvé ou n'est pas inscrit dans une école.");
+        }
+
+        return school;
+    }
 
 }

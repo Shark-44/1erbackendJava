@@ -38,7 +38,7 @@ public class Student {
     private Set<Langage> langages;
 
     @ManyToOne
-    @JoinColumn(name = "school_id", nullable = false)
+    @JoinColumn(name = "idSchool", nullable = false)
     @JsonBackReference
     private School school;
 
