@@ -4,6 +4,7 @@ import com.datajava.model.Student;
 import com.datajava.model.Langage;
 import com.datajava.model.School;
 import com.datajava.service.StudentService;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +17,7 @@ import java.util.Set;
 import java.util.Optional;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:5173")
 @RequestMapping("/api/students")
 public class StudentController {
     @Autowired
