@@ -39,3 +39,6 @@ out/
 #### test pour acces serveur
 *.properties
 applications.properties
+
+# Ignore les dossiers et fichiers générés par Maven
+/target/
