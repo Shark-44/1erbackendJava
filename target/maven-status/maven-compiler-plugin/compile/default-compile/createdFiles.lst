@@ -5,6 +5,7 @@ com\datajava\controller\StudentController.class
 com\datajava\controller\SchoolController.class
 com\datajava\model\School.class
 com\datajava\service\LangageService.class
+com\datajava\controller\FileUploadController.class
 com\datajava\controller\LangageController.class
 com\datajava\dto\SchoolDTO.class
 com\datajava\model\Student.class
