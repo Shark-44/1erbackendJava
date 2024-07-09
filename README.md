@@ -49,4 +49,7 @@ et 1 école peut enseigner une ou plusieurs langues
 4) Liaison one-to-many entre student et school
 
 5) Etude et mise en place d'upload images dans le backend comme multer dans node.js
- test de cette fonction upload ok voir ressources/static/images.
+ Apres la mise en place de mon front correction effectuée pour l'ajout d'image sans relancer le serveur. voir webconfig.java et gestion du cache.
+
+ 6) Mise en place de spring security pour un mode usr/root
+ suivant ce tuto :https://www.invivoo.com/securiser-application-spring-boot-spring-security/
