@@ -1,41 +1,50 @@
 package com.datajava.controller;
 
 import com.datajava.model.Student;
+import com.datajava.service.StudentService;
 import com.datajava.model.Langage;
 import com.datajava.model.School;
-import com.datajava.service.StudentService;
+
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Set;
 import java.util.Optional;
 
+
 @RestController
 @CrossOrigin(origins = "http://localhost:5173")
 @RequestMapping("/api/students")
 public class StudentController {
+
+    private final StudentService studentService;
+
     @Autowired
-    private StudentService studentService;
+    public StudentController(StudentService studentService) {
+        this.studentService = studentService;
+    }
 
     @GetMapping
     public List<Student> getAllStudents() {
         return studentService.getAllStudents();
     }
-    
     @GetMapping("/{id}")
     public Optional<Student> getStudentById(@PathVariable int id) {
         return studentService.getStudentById(id);
     }
 
     @PostMapping
-    public Student createStudent(@RequestBody Student student) {
-        return studentService.createStudent(student);
+    public ResponseEntity<Student> createStudent(@RequestBody Student student) {
+        try {
+            Student createdStudent = studentService.createStudent(student);
+            return ResponseEntity.status(HttpStatus.CREATED).body(createdStudent);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
     
     @PutMapping("/{id}")

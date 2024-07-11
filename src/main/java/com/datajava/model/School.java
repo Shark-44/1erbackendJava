@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.util.Set;
+import java.util.HashSet;
 
 @Entity
 @Table(name = "school")
@@ -14,32 +15,24 @@ public class School {
     @Column(name = "idSchool")
     private int idSchool;
     
-    @Column(name = "NameSchool")
-    private String NameSchool;
+    @Column(name = "nameSchool")
+    private String nameSchool;
     
-    @Column(name = "PhotoSchool")
-    private String PhotoSchool;
+    @Column(name = "photoSchool")
+    private String photoSchool;
 
+    @OneToMany(mappedBy = "school")
+    @JsonManagedReference
+    private Set<Student> students = new HashSet<>();
+    
     @ManyToMany
     @JoinTable(
         name = "school_has_langage",
         joinColumns = @JoinColumn(name = "idSchool"),
         inverseJoinColumns = @JoinColumn(name = "idLangage")
     )
-    private Set<Langage> langages;
-
-    @OneToMany(mappedBy = "school", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnore
-    private Set<Student> students;
-
-    public Set<Langage> getLangages() {
-        return langages;
-    }
-
-    public void setLangages(Set<Langage> langages) {
-        this.langages = langages;
-    }
-
+    @JsonManagedReference
+    private Set<Langage> langages = new HashSet<>();
 
     // Getters and setters
     public int getIdSchool() {
@@ -51,19 +44,27 @@ public class School {
     }
 
     public String getNameSchool() {
-        return NameSchool;
+        return nameSchool;
     }
 
-    public void setNameSchool(String NameSchool) {
-        this.NameSchool = NameSchool;
+    public void setNameSchool(String nameSchool) {
+        this.nameSchool = nameSchool;
     }
 
     public String getPhotoSchool() {
-        return PhotoSchool;
+        return photoSchool;
     }
 
-    public void setPhotoSchool(String PhotoSchool) {
-        this.PhotoSchool = PhotoSchool;
+    public void setPhotoSchool(String photoSchool) {
+        this.photoSchool = photoSchool;
+    }
+
+    public Set<Langage> getLangages() {
+        return langages;
+    }
+
+    public void setLangages(Set<Langage> langages) {
+        this.langages = langages;
     }
 
     public Set<Student> getStudents() {

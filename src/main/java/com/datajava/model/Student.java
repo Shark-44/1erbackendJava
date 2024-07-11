@@ -3,9 +3,11 @@ package com.datajava.model;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.Set;
+import java.util.HashSet;
 
 @Entity
 @Table(name = "student")
@@ -15,32 +17,32 @@ public class Student {
     @Column(name = "idStudent")
     private int idStudent;
 
-    @Column(name = "Name")
+    @Column(name = "name")
     private String name;
 
-    @Column(name = "Firstname")
+    @Column(name = "firstname")
     private String firstname;
 
-    @Column(name = "Birthday")
+    @Column(name = "birthday")
     private Date birthday;
 
-    @Column(name = "Photo")
+    @Column(name = "photo")
     private String photo;
-
-    @ManyToMany
-    @JoinTable(
-        name = "student_has_langage",
-        joinColumns = @JoinColumn(name = "Student_idStudent"),
-        inverseJoinColumns = @JoinColumn(name = "Langage_idLangage")
-    )
-    @JsonManagedReference
-   
-    private Set<Langage> langages;
 
     @ManyToOne
     @JoinColumn(name = "idSchool", nullable = false)
     @JsonBackReference
     private School school;
+    
+    @ManyToMany
+    @JoinTable(
+        name = "student_has_langage",
+        joinColumns = @JoinColumn(name = "idStudent"),
+        inverseJoinColumns = @JoinColumn(name = "idLangage")
+    )
+    @JsonManagedReference
+    private Set<Langage> langages = new HashSet<>();
+    
 
     // Getters and setters
     public int getIdStudent() {

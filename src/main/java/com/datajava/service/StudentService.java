@@ -1,12 +1,13 @@
 package com.datajava.service;
 
 import com.datajava.model.Student;
+import com.datajava.repository.StudentRepository;
 import com.datajava.model.Langage;
 import com.datajava.model.School;
 
-import com.datajava.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,6 +16,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class StudentService {
+
     @Autowired
     private StudentRepository studentRepository;
 
@@ -26,10 +28,13 @@ public class StudentService {
         return studentRepository.findById(id);
     }
 
+
+    @Transactional
     public Student createStudent(Student student) {
+
         return studentRepository.save(student);
     }
-    
+
     public Student updateStudent(int id, Student studentDetails) {
         Student student = studentRepository.findById(id).orElseThrow(() -> new RuntimeException("Student not found"));
         student.setName(studentDetails.getName());
@@ -67,4 +72,3 @@ public class StudentService {
     }
 
 }
-
