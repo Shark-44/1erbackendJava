@@ -3,6 +3,10 @@ package com.datajava.model;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
+// pour essais 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import javax.persistence.*;
 import java.util.Set;
 import java.util.HashSet;
@@ -58,4 +62,5 @@ public class Langage {
     public void setSchools(Set<School> schools) {
         this.schools = schools;
     }
+
 }

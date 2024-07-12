@@ -1,13 +1,20 @@
 package com.datajava.controller;
 
 
+import com.datajava.dto.LangageCreationDTO;
 import com.datajava.dto.SchoolDTO;
 import com.datajava.model.Student;
 import com.datajava.model.Langage;
 import com.datajava.service.LangageService;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.Collections;
 
 import java.util.List;
 import java.util.Set;
@@ -30,9 +37,12 @@ public class LangageController {
         return langageService.getLangageById(id);
     }
     
-    @PostMapping
-    public Langage createLangage(@RequestBody Langage langage) {
-        return langageService.createLangage(langage);
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Langage> createLangage(@RequestBody LangageCreationDTO langageDTO, HttpServletRequest request) {
+        Langage langage = new Langage();
+        langage.setNameLangage(langageDTO.getNameLangage());
+        Langage createdLangage = langageService.createLangage(langage);
+        return ResponseEntity.ok(createdLangage);
     }
     
     @PutMapping("/{id}")

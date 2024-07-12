@@ -1,5 +1,6 @@
 package com.datajava.controller;
 
+import com.datajava.dto.StudentCreationDTO;
 import com.datajava.model.Student;
 import com.datajava.service.StudentService;
 import com.datajava.model.Langage;
@@ -10,7 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import javax.servlet.http.HttpServletRequest;
+import org.springframework.http.MediaType;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Set;
 import java.util.Optional;
@@ -37,13 +41,21 @@ public class StudentController {
         return studentService.getStudentById(id);
     }
 
-    @PostMapping
-    public ResponseEntity<Student> createStudent(@RequestBody Student student) {
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> createStudent(@Valid @RequestBody StudentCreationDTO studentDTO) {
         try {
+            Student student = new Student();
+            student.setName(studentDTO.getName());
+            student.setFirstname(studentDTO.getFirstname());
+            student.setBirthday(studentDTO.getBirthday());
+            student.setPhoto(studentDTO.getPhoto());
+           
             Student createdStudent = studentService.createStudent(student);
-            return ResponseEntity.status(HttpStatus.CREATED).body(createdStudent);
+            return ResponseEntity.ok(createdStudent);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                                 .body("Error creating student: " + e.getMessage());
         }
     }
     
