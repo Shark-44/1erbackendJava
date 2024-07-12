@@ -53,3 +53,16 @@ et 1 école peut enseigner une ou plusieurs langues
 
  6) Mise en place de spring security pour un mode usr/root
  suivant ce tuto :https://www.invivoo.com/securiser-application-spring-boot-spring-security/
+
+7) Suite a un developpement du frontend sous react-ts. J'ai eu des erreurs de boucles infinies avec les liaisons. L'ajout de @JsonBackReference m'a permis de corriger le probleme. Les liaisons m'ont bloqué aussi sur les posts avec une erreur 415. Cela a été reglé en redirigeant sur des fichiers DTO.
+
+8) Pour effectuer un DELETE, j'ai du repenser la méthode en raison des liaisons.
+  Un Get by ID me renvoyait pour un étudiant. {"idStudent":1,"name":"Dupont","firstname":"Martin","birthday":949359600000,"photo":"Martin_Dupont.webp","langages":[{"idLangage":2,"nameLangage":"Java"},{"idLangage":1,"nameLangage":"Php"}]} j'ai donc en laison un objet de langage et dans le cas ou l'etudiant n'a pas de relation avec langage j'obtenais une reponse null.
+  Donc un DELETE impossible.
+  
+  Sachant qu'en SQL je dois supprimer les liaisons avant d'effacer une ligne dans une table et pour ressoudre se problème je suis passé par cette logique
+
+          a) Un get ALL et chercher dedans si l'ID exsite pour eviter le null
+          b) Verifier la présence des liaisons entre les tables langage et school 
+          c) Supprimer les liaisons 
+          e) Enfin DELETE 

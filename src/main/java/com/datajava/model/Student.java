@@ -2,6 +2,7 @@ package com.datajava.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 // pour essais 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
@@ -45,6 +46,7 @@ public class Student {
         inverseJoinColumns = @JoinColumn(name = "idLangage")
     )
     @JsonManagedReference
+    @JsonIgnoreProperties("students") // reference ciculaire
     private Set<Langage> langages = new HashSet<>();
     
 
