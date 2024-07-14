@@ -2,6 +2,7 @@ package com.datajava.controller;
 
 import com.datajava.model.User;
 import com.datajava.service.UserService;
+import com.datajava.security.JwtUtil; // Importation ajoutée
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -13,10 +14,12 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {  
 
     private final UserService userService;
+    private final JwtUtil jwtUtil; // Ajouter le champ jwtUtil si tu prévois de l'utiliser
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, JwtUtil jwtUtil) {
         this.userService = userService;
+        this.jwtUtil = jwtUtil; // Initialiser le champ jwtUtil
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -30,7 +33,6 @@ public class UserController {
         }
     }
 
-   
     @GetMapping("/{id}")
     public ResponseEntity<User> getUserById(@PathVariable Integer id) {
         User user = userService.getUserById(id);

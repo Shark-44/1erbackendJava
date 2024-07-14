@@ -74,3 +74,4 @@ Commande pour ajouter un user curl -X POST http://localhost:8080/api/users -H "C
     "username": "USERNAME",
     "password": "PASSWORD"
 }'
+10) Gerer un token avec JWT et utilisation d'un cookie.

@@ -11,8 +11,14 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+
 @Component
 public class AppAuthProvider extends DaoAuthenticationProvider {
+
+    private static final Logger logger = LoggerFactory.getLogger(AppAuthProvider.class);
 
     private final UserService userDetailsService;
 
@@ -29,6 +35,8 @@ public class AppAuthProvider extends DaoAuthenticationProvider {
         String name = auth.getName();
         String password = auth.getCredentials().toString();
         UserDetails user = userDetailsService.loadUserByUsername(name);
+
+        logger.info("Attempting authentication for user: {}", name);
 
         if (user == null) {
             throw new BadCredentialsException("Username not found: " + name);
