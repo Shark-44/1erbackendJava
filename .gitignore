@@ -42,3 +42,6 @@ applications.properties
 
 # Ignore les dossiers et fichiers générés par Maven
 /target/
+
+#Securité
+../JwtUtil.java

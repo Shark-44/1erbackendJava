@@ -23,6 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -40,21 +41,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
             .cors() // Enable CORS
             .and()
+            .addFilter(new JwtAuthenticationFilter(authenticationManager())) // Assurez-vous que le filtre est configuré correctement
             .exceptionHandling()
                 .authenticationEntryPoint(new Http403ForbiddenEntryPoint())
                 .accessDeniedHandler(accessDeniedHandler())
-                .and()
-            .authenticationProvider(getProvider())
-            .formLogin()
-                .loginProcessingUrl("/login")
-                .successHandler(new AuthentificationLoginSuccessHandler())
-                .failureHandler(new SimpleUrlAuthenticationFailureHandler())
-                .and()
-            .logout()
-                .logoutUrl("/logout")
-                .logoutSuccessHandler(new AuthentificationLogoutSuccessHandler())
-                .invalidateHttpSession(true)
-                .and()
+            .and()
             .authorizeRequests()
                 .antMatchers("/login").permitAll()
                 .antMatchers("/logout").permitAll()

@@ -66,3 +66,6 @@ et 1 école peut enseigner une ou plusieurs langues
           b) Verifier la présence des liaisons entre les tables langage et school 
           c) Supprimer les liaisons 
           e) Enfin DELETE 
+
+9) Configuartion pour jwt
+un dossier securité : AppAuthProvider.java /JwtAuthentificationFilter.jawa et JwtUtil.java

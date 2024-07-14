@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.Optional;
 
+@Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
 
     @Query(" select u from User u " +
