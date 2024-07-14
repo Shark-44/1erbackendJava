@@ -69,3 +69,8 @@ et 1 école peut enseigner une ou plusieurs langues
 
 9) Configuartion pour jwt
 un dossier securité : AppAuthProvider.java /JwtAuthentificationFilter.jawa et JwtUtil.java
+
+Commande pour ajouter un user curl -X POST http://localhost:8080/api/users -H "Content-Type: application/json" -d '{
+    "username": "USERNAME",
+    "password": "PASSWORD"
+}'

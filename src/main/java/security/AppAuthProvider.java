@@ -8,30 +8,34 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Component;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
 
 @Component
 public class AppAuthProvider extends DaoAuthenticationProvider {
 
-    @Autowired
-    private UserService userDetailsService;
+    private final UserService userDetailsService;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    public AppAuthProvider(UserService userDetailsService, PasswordEncoder passwordEncoder) {
+        this.userDetailsService = userDetailsService;
+        setUserDetailsService(userDetailsService);
+        setPasswordEncoder(passwordEncoder);
+    }
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-
         UsernamePasswordAuthenticationToken auth = (UsernamePasswordAuthenticationToken) authentication;
-
         String name = auth.getName();
         String password = auth.getCredentials().toString();
-
         UserDetails user = userDetailsService.loadUserByUsername(name);
 
-        if (user == null || !passwordEncoder.matches(password, user.getPassword())) {
-            throw new BadCredentialsException("Username/Password does not match for " + auth.getPrincipal());
+        if (user == null) {
+            throw new BadCredentialsException("Username not found: " + name);
+        }
+
+        if (!getPasswordEncoder().matches(password, user.getPassword())) {
+            throw new BadCredentialsException("Invalid password");
         }
 
         return new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());

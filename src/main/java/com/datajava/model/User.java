@@ -5,10 +5,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.Collection;
-
 @Entity
-@Table(name = "USER")
+@Table(name = "user")
 public class User implements Serializable , UserDetails {
 
     @Id
