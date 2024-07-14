@@ -34,8 +34,8 @@ public class Student {
     @Column(name = "photo")
     private String photo;
 
-    @ManyToOne
-    @JoinColumn(name = "idSchool", nullable = false)
+    @ManyToOne(optional = true)
+    @JoinColumn(name = "idSchool", nullable = true)
     @JsonBackReference
     private School school;
     

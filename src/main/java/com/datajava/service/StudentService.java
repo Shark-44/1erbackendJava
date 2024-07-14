@@ -1,5 +1,6 @@
 package com.datajava.service;
 
+import com.datajava.dto.StudentCreationDTO;
 import com.datajava.model.Student;
 import com.datajava.controller.StudentController;
 import com.datajava.repository.StudentRepository;
@@ -22,7 +23,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-
 @Service
 public class StudentService {
 
@@ -41,19 +41,27 @@ public class StudentService {
         return studentRepository.findAll();
     }
 
-    public Optional<Student> getStudentById(int id) {
-        Optional<Student> student = studentRepository.findById(id);
-        logger.info("Fetching student with id {}: {}", id, student);
-        return student;
+    public Student getStudentById(int idStudent) {
+
+        Optional<Student> studentOpt = studentRepository.findById(idStudent);
+        if (studentOpt.isPresent()) {
+
+            return studentOpt.get();
+        } else {
+            throw new StudentNotFoundException("Student not found with id: " + idStudent);
+        }
     }
 
     @Transactional
     public Student createStudent(Student student) {
+        
         return studentRepository.save(student);
     }
 
+    @Transactional
     public Student updateStudent(int id, Student studentDetails) {
-        Student student = studentRepository.findById(id).orElseThrow(() -> new RuntimeException("Student not found"));
+       
+        Student student = getStudentById(id);
         student.setName(studentDetails.getName());
         student.setFirstname(studentDetails.getFirstname());
         student.setBirthday(studentDetails.getBirthday());
@@ -63,12 +71,12 @@ public class StudentService {
     }
 
     @Transactional
-    public void deleteStudent(int id) {
-        Student student = studentRepository.findById(id)
-            .orElseThrow(() -> new StudentNotFoundException("Student not found with id: " + id));
+    public void deleteStudent(int idStudent) {
+        
+        Student student = getStudentById(idStudent);
 
         try {
-            // 1. Gérer la relation ManyToMany avec Langage
+            // 1. Manage ManyToMany relationship with Langage
             if (!student.getLangages().isEmpty()) {
                 for (Langage langage : student.getLangages()) {
                     langage.getStudents().remove(student);
@@ -77,7 +85,7 @@ public class StudentService {
                 student.getLangages().clear();
             }
 
-            // 2. Gérer la relation ManyToOne avec School
+            // 2. Manage ManyToOne relationship with School
             School school = student.getSchool();
             if (school != null) {
                 school.getStudents().remove(student);
@@ -85,20 +93,24 @@ public class StudentService {
                 student.setSchool(null);
             }
 
-            // 3. Supprimer l'étudiant
+            // 3. Delete the student
             studentRepository.delete(student);
+            
 
         } catch (Exception e) {
+            
             throw new StudentDeletionException("Error deleting student: " + e.getMessage());
         }
     }
 
     public Set<Langage> getLangagesByStudentId(int id) {
-        Student student = studentRepository.findById(id).orElseThrow(() -> new RuntimeException("Student not found"));
+        
+        Student student = getStudentById(id);
         return student.getLangages();
     }
 
     public Set<Student> getStudentsByLangageId(int langageId) {
+        
         return studentRepository.findAll().stream()
                 .filter(student -> student.getLangages().stream()
                         .anyMatch(langage -> langage.getIdLangage() == langageId))
@@ -106,12 +118,7 @@ public class StudentService {
     }
 
     public School getSchoolByStudentId(int studentId) {
-        Student student = studentRepository.findById(studentId).orElse(null);
-
-        if (student == null) {
-            return null;
-        }
-
+        Student student = getStudentById(studentId);
         return student.getSchool();
     }
 }
