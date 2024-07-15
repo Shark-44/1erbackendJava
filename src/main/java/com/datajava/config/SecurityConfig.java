@@ -1,13 +1,12 @@
 package com.datajava.config;
 
-import com.datajava.service.UserService;
-import com.datajava.security.AppAuthProvider;
+import com.datajava.service.AuthService; // Assure-toi que c'est AuthService
 import com.datajava.security.JwtAuthenticationFilter;
 import com.datajava.security.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -16,35 +15,34 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-
-    private final UserService userService;
+    
+    private AuthService authService;
     private final JwtUtil jwtUtil;
 
     @Autowired
-    public SecurityConfig(@Lazy UserService userService, JwtUtil jwtUtil) {
-        this.userService = userService;
+    public SecurityConfig(JwtUtil jwtUtil) {
         this.jwtUtil = jwtUtil;
     }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+    @Autowired
+    public void setAuthService(AuthService authService) {
+        this.authService = authService;
     }
 
     @Bean
-    public AuthenticationProvider authenticationProvider() {
-        return new AppAuthProvider(userService, passwordEncoder());
+    public static PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.authenticationProvider(authenticationProvider());
+        auth.userDetailsService((UserDetailsService) authService).passwordEncoder(passwordEncoder());
     }
 
     @Override
@@ -69,6 +67,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public JwtAuthenticationFilter jwtAuthenticationFilter() {
-        return new JwtAuthenticationFilter(jwtUtil, userService);
+        return new JwtAuthenticationFilter(jwtUtil, (UserDetailsService) authService);
     }
 }

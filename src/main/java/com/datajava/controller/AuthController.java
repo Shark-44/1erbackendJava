@@ -1,28 +1,47 @@
 package com.datajava.controller;
 
-import com.datajava.service.UserService;
+import com.datajava.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 
 @RestController
-
 public class AuthController {
 
-    private final UserService userService;
+    private final AuthService authService;
 
     @Autowired
-    public AuthController(UserService userService) {
-        this.userService = userService;
+    public AuthController(AuthService authService) {
+        this.authService = authService;
     }
-    @GetMapping("/logout")
-    public ResponseEntity<?> logout() {
-        // Logique de déconnexion ici
-        return ResponseEntity.ok("Logout successful");
-    }
+
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
-        return ResponseEntity.ok("Authentication successful");
+    public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest, HttpServletResponse response) {
+        try {
+            String token = authService.authenticate(loginRequest.username, loginRequest.password);
+            Cookie cookie = new Cookie("token", token);
+            cookie.setHttpOnly(true);
+            cookie.setPath("/");
+            response.addCookie(cookie);
+            return ResponseEntity.ok("Authentication successful");
+        } catch (UsernameNotFoundException e) {
+            return ResponseEntity.status(401).body("Authentication failed");
+        }
+    }
+
+    @GetMapping("/logout")
+    public ResponseEntity<?> logout(HttpServletResponse response) {
+        Cookie cookie = new Cookie("token", null);
+        cookie.setHttpOnly(true);
+        cookie.setPath("/");
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
+        return ResponseEntity.ok("Logout successful");
     }
 }
 
