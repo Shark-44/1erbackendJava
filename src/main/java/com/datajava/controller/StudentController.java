@@ -3,12 +3,8 @@ package com.datajava.controller;
 import com.datajava.dto.StudentCreationDTO;
 import com.datajava.model.Student;
 import com.datajava.service.StudentService;
-import com.datajava.repository.StudentRepository;
-
 import com.datajava.model.Langage;
-import com.datajava.repository.LangageRepository;
 import com.datajava.model.School;
-import com.datajava.repository.SchoolRepository;
 import com.datajava.exception.StudentNotFoundException;
 import com.datajava.exception.StudentDeletionException;
 
@@ -17,17 +13,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import javax.servlet.http.HttpServletRequest;
 import org.springframework.http.MediaType;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Set;
-import java.util.Optional;
-import java.util.HashSet;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:5173")
@@ -35,8 +25,6 @@ import java.util.HashSet;
 public class StudentController {
 
     private final StudentService studentService;
-    private static final Logger logger = LoggerFactory.getLogger(StudentController.class);
-
     @Autowired
     public StudentController(StudentService studentService) {
         this.studentService = studentService;

@@ -2,7 +2,6 @@ package com.datajava.service;
 
 import com.datajava.model.User;
 import com.datajava.repository.UserRepository;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -14,7 +13,7 @@ import com.datajava.exception.UserAlreadyExistsException;
 import java.util.Objects;
 
 @Service
-@Slf4j
+
 public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;

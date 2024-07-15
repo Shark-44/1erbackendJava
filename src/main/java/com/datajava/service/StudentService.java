@@ -1,8 +1,6 @@
 package com.datajava.service;
 
-import com.datajava.dto.StudentCreationDTO;
 import com.datajava.model.Student;
-import com.datajava.controller.StudentController;
 import com.datajava.repository.StudentRepository;
 import com.datajava.model.Langage;
 import com.datajava.repository.LangageRepository;
@@ -15,9 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -25,8 +20,6 @@ import java.util.stream.Collectors;
 
 @Service
 public class StudentService {
-
-    private static final Logger logger = LoggerFactory.getLogger(StudentService.class);
 
     @Autowired
     private StudentRepository studentRepository;

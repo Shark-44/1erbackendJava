@@ -1,38 +1,34 @@
 package com.datajava.config;
 
-import com.datajava.service.AuthService; // Assure-toi que c'est AuthService
+import com.datajava.service.AuthService;
 import com.datajava.security.JwtAuthenticationFilter;
 import com.datajava.security.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.security.core.userdetails.UserDetailsService;
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+public class SecurityConfig {
     
-    private AuthService authService;
+    private final AuthService authService;
     private final JwtUtil jwtUtil;
 
     @Autowired
-    public SecurityConfig(JwtUtil jwtUtil) {
-        this.jwtUtil = jwtUtil;
-    }
-
-    @Autowired
-    public void setAuthService(AuthService authService) {
+    public SecurityConfig(AuthService authService, JwtUtil jwtUtil) {
         this.authService = authService;
+        this.jwtUtil = jwtUtil;
     }
 
     @Bean
@@ -40,33 +36,37 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService((UserDetailsService) authService).passwordEncoder(passwordEncoder());
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+        return authenticationConfiguration.getAuthenticationManager();
     }
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
+    @SuppressWarnings("removal")
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             .csrf().disable()
             .cors().and()
+            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
             .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
-            .exceptionHandling().authenticationEntryPoint(new Http403ForbiddenEntryPoint())
-            .and()
-            .authorizeRequests()
-                .antMatchers("/login", "/logout").permitAll()
-                .antMatchers("/user").authenticated()
-                .anyRequest().permitAll()
-            .and()
+            .exceptionHandling().authenticationEntryPoint(new Http403ForbiddenEntryPoint()).and()
+            .authorizeHttpRequests((requests) -> requests
+            .requestMatchers(new AntPathRequestMatcher("/login")).permitAll()
+            .requestMatchers(new AntPathRequestMatcher("/logout")).permitAll()
+            .requestMatchers(new AntPathRequestMatcher("/user")).authenticated()
+            .anyRequest().permitAll()
+        )
             .logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
                 .logoutSuccessHandler((request, response, authentication) -> response.setStatus(200))
                 .clearAuthentication(true)
                 .invalidateHttpSession(true);
+
+        return http.build();
     }
 
     @Bean
     public JwtAuthenticationFilter jwtAuthenticationFilter() {
-        return new JwtAuthenticationFilter(jwtUtil, (UserDetailsService) authService);
+        return new JwtAuthenticationFilter(jwtUtil, authService);
     }
 }
