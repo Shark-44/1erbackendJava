@@ -7,6 +7,7 @@ import com.datajava.repository.LangageRepository;
 import com.datajava.model.School;
 import com.datajava.repository.SchoolRepository;
 import com.datajava.exception.StudentNotFoundException;
+import com.datajava.dto.StudentUpdateDTO;
 import com.datajava.exception.StudentDeletionException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +51,7 @@ public class StudentService {
         
         return studentRepository.save(student);
     }
-
+/* 
     @Transactional
     public Student updateStudent(int id, Student studentDetails) {
        
@@ -61,8 +62,9 @@ public class StudentService {
         student.setPhoto(studentDetails.getPhoto());
         student.setLangages(studentDetails.getLangages());
         return studentRepository.save(student);
-    }
+    }*/
 
+    // Delete suivant avec ou sans liaison
     @Transactional
     public void deleteStudent(int idStudent) {
         
@@ -95,7 +97,49 @@ public class StudentService {
             throw new StudentDeletionException("Error deleting student: " + e.getMessage());
         }
     }
+    // PUT sous condition
 
+    @Transactional
+    public Student updateStudentBasicInfo(int idStudent, StudentUpdateDTO studentDTO) {
+        Student student = getStudentById(idStudent);
+        student.setName(studentDTO.getName());
+        student.setFirstname(studentDTO.getFirstname());
+        student.setBirthday(studentDTO.getBirthday());
+        student.setPhoto(studentDTO.getPhoto());
+        return studentRepository.save(student);
+    }
+
+    @Transactional
+    public Student associateSchoolToStudent(int studentId, int schoolId) {
+        Student student = getStudentById(studentId);
+        School school = schoolRepository.findById(schoolId)
+            .orElseThrow(() -> new RuntimeException("School not found with id: " + schoolId));
+        
+        student.setSchool(school);
+        return studentRepository.save(student);
+    }
+
+    @Transactional
+    public Student associateLangagesToStudent(int studentId, List<Integer> langageIds, int schoolId) {
+        Student student = getStudentById(studentId);
+        
+        // Associer l'école
+        School school = schoolRepository.findById(schoolId)
+            .orElseThrow(() -> new RuntimeException("School not found with id: " + schoolId));
+        student.setSchool(school);
+        
+        // Associer les langages
+        Set<Langage> langages = langageIds.stream()
+            .map(id -> langageRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Langage not found with id: " + id)))
+            .collect(Collectors.toSet());
+        
+        student.setLangages(langages);
+        
+        return studentRepository.save(student);
+    }
+
+// GET specifique
     public Set<Langage> getLangagesByStudentId(int id) {
         
         Student student = getStudentById(id);

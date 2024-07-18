@@ -1,6 +1,7 @@
 package com.datajava.controller;
 
 import com.datajava.dto.StudentCreationDTO;
+import com.datajava.dto.StudentUpdateDTO;
 import com.datajava.model.Student;
 import com.datajava.service.StudentService;
 import com.datajava.model.Langage;
@@ -8,7 +9,6 @@ import com.datajava.model.School;
 import com.datajava.exception.StudentNotFoundException;
 import com.datajava.exception.StudentDeletionException;
 
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -68,19 +68,46 @@ public class StudentController {
         }
     }
     
-    @PutMapping("/{id}")
-    public ResponseEntity<?> updateStudent(@PathVariable int id, @RequestBody Student studentDetails) {
+    // PUT sous condition
+    @PutMapping("/{id}/basic-info")
+    public ResponseEntity<?> updateStudentBasicInfo(@PathVariable int id, @Valid @RequestBody StudentUpdateDTO studentDTO) {
         try {
-            Student updatedStudent = studentService.updateStudent(id, studentDetails);
+            Student updatedStudent = studentService.updateStudentBasicInfo(id, studentDTO);
             return ResponseEntity.ok(updatedStudent);
         } catch (StudentNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         } catch (Exception e) {
-            
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                                 .body("Error updating student: " + e.getMessage());
+                                .body("Error updating student basic info: " + e.getMessage());
         }
     }
+    @PutMapping("/{id}/associate-school/{schoolId}")
+    public ResponseEntity<?> associateSchoolToStudent(@PathVariable int id, @PathVariable int schoolId) throws StudentNotFoundException {
+        try {
+            Student updatedStudent = studentService.associateSchoolToStudent(id, schoolId);
+            return ResponseEntity.ok(updatedStudent);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                                 .body("Error associating school to student: " + e.getMessage());
+        }
+    }
+    @PutMapping("/{id}/associate-langages")
+    public ResponseEntity<?> associateLangagesToStudent(@PathVariable int id, 
+                                                        @RequestParam List<Integer> langageIds, 
+                                                        @RequestParam int schoolId) throws StudentNotFoundException {
+        try {
+            Student updatedStudent = studentService.associateLangagesToStudent(id, langageIds, schoolId);
+            return ResponseEntity.ok(updatedStudent);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                                 .body("Error associating langages to student: " + e.getMessage());
+        }
+    }
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteStudent(@PathVariable int id) {

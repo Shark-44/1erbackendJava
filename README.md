@@ -75,3 +75,8 @@ Commande pour ajouter un user curl -X POST http://localhost:8080/api/users -H "C
     "password": "PASSWORD"
 }'
 10) Gerer un token avec JWT et utilisation d'un cookie.
+
+11) Reprise du CRUD pour student. le dernier point était de faire un update sous conditions :
+1- Etudiant inscrit sans école, sans langage
+2- Associer une ecole 
+3- Associer des langages en fonction de l'école.
