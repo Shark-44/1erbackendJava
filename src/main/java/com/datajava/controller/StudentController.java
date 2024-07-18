@@ -1,11 +1,11 @@
 package com.datajava.controller;
 
+import com.datajava.dto.SchoolDTO;
 import com.datajava.dto.StudentCreationDTO;
 import com.datajava.dto.StudentUpdateDTO;
 import com.datajava.model.Student;
 import com.datajava.service.StudentService;
 import com.datajava.model.Langage;
-import com.datajava.model.School;
 import com.datajava.exception.StudentNotFoundException;
 import com.datajava.exception.StudentDeletionException;
 
@@ -93,6 +93,7 @@ public class StudentController {
                                  .body("Error associating school to student: " + e.getMessage());
         }
     }
+    @CrossOrigin(origins = "http://localhost:5173")
     @PutMapping("/{id}/associate-langages")
     public ResponseEntity<?> associateLangagesToStudent(@PathVariable int id, 
                                                         @RequestParam List<Integer> langageIds, 
@@ -136,10 +137,11 @@ public class StudentController {
     @GetMapping("/{id}/school")
     public ResponseEntity<?> getSchoolByStudentId(@PathVariable int id) {
         try {
-            School school = studentService.getSchoolByStudentId(id);
-            return ResponseEntity.ok(school);
+            SchoolDTO schoolDTO = studentService.getSchoolByStudentId(id);
+            return ResponseEntity.ok(schoolDTO);
         } catch (StudentNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
+
 }

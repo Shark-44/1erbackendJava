@@ -7,6 +7,7 @@ import com.datajava.repository.LangageRepository;
 import com.datajava.model.School;
 import com.datajava.repository.SchoolRepository;
 import com.datajava.exception.StudentNotFoundException;
+import com.datajava.dto.SchoolDTO;
 import com.datajava.dto.StudentUpdateDTO;
 import com.datajava.exception.StudentDeletionException;
 
@@ -154,8 +155,21 @@ public class StudentService {
                 .collect(Collectors.toSet());
     }
 
-    public School getSchoolByStudentId(int studentId) {
-        Student student = getStudentById(studentId);
-        return student.getSchool();
+    public SchoolDTO getSchoolByStudentId(int idStudent) {
+        Student student = getStudentById(idStudent);
+        School school = student.getSchool();
+
+        if (school == null) {
+            throw new StudentNotFoundException("School not found for student id: " + idStudent);
+        }
+
+        // Créer et retourner un SchoolDTO
+        SchoolDTO schoolDTO = new SchoolDTO();
+        schoolDTO.setIdSchool(school.getIdSchool());
+        schoolDTO.setNameSchool(school.getNameSchool());
+        schoolDTO.setPhotoSchool(school.getPhotoSchool());
+
+        return schoolDTO;
     }
+
 }
