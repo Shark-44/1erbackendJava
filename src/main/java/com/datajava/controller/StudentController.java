@@ -1,6 +1,6 @@
 package com.datajava.controller;
 
-import com.datajava.dto.SchoolDTO;
+import com.datajava.dto.SchoolCreationDTO; 
 import com.datajava.dto.StudentCreationDTO;
 import com.datajava.dto.StudentUpdateDTO;
 import com.datajava.model.Student;
@@ -137,7 +137,7 @@ public class StudentController {
     @GetMapping("/{id}/school")
     public ResponseEntity<?> getSchoolByStudentId(@PathVariable int id) {
         try {
-            SchoolDTO schoolDTO = studentService.getSchoolByStudentId(id);
+            SchoolCreationDTO schoolDTO = studentService.getSchoolByStudentId(id); 
             return ResponseEntity.ok(schoolDTO);
         } catch (StudentNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());

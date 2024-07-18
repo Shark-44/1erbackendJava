@@ -7,7 +7,7 @@ import com.datajava.repository.LangageRepository;
 import com.datajava.model.School;
 import com.datajava.repository.SchoolRepository;
 import com.datajava.exception.StudentNotFoundException;
-import com.datajava.dto.SchoolDTO;
+import com.datajava.dto.SchoolCreationDTO; 
 import com.datajava.dto.StudentUpdateDTO;
 import com.datajava.exception.StudentDeletionException;
 
@@ -37,10 +37,8 @@ public class StudentService {
     }
 
     public Student getStudentById(int idStudent) {
-
         Optional<Student> studentOpt = studentRepository.findById(idStudent);
         if (studentOpt.isPresent()) {
-
             return studentOpt.get();
         } else {
             throw new StudentNotFoundException("Student not found with id: " + idStudent);
@@ -49,13 +47,13 @@ public class StudentService {
 
     @Transactional
     public Student createStudent(Student student) {
-        
         return studentRepository.save(student);
     }
-/* 
+
+    // Commenté pour éviter la confusion, car il y a déjà une méthode updateStudent
+    /*
     @Transactional
     public Student updateStudent(int id, Student studentDetails) {
-       
         Student student = getStudentById(id);
         student.setName(studentDetails.getName());
         student.setFirstname(studentDetails.getFirstname());
@@ -63,16 +61,15 @@ public class StudentService {
         student.setPhoto(studentDetails.getPhoto());
         student.setLangages(studentDetails.getLangages());
         return studentRepository.save(student);
-    }*/
+    }
+    */
 
-    // Delete suivant avec ou sans liaison
     @Transactional
     public void deleteStudent(int idStudent) {
-        
         Student student = getStudentById(idStudent);
 
         try {
-            // 1. Manage ManyToMany relationship with Langage
+            // 1. Gérer la relation ManyToMany avec Langage
             if (!student.getLangages().isEmpty()) {
                 for (Langage langage : student.getLangages()) {
                     langage.getStudents().remove(student);
@@ -81,7 +78,7 @@ public class StudentService {
                 student.getLangages().clear();
             }
 
-            // 2. Manage ManyToOne relationship with School
+            // 2. Gérer la relation ManyToOne avec School
             School school = student.getSchool();
             if (school != null) {
                 school.getStudents().remove(student);
@@ -89,16 +86,12 @@ public class StudentService {
                 student.setSchool(null);
             }
 
-            // 3. Delete the student
+            // 3. Supprimer l'étudiant
             studentRepository.delete(student);
-            
-
         } catch (Exception e) {
-            
             throw new StudentDeletionException("Error deleting student: " + e.getMessage());
         }
     }
-    // PUT sous condition
 
     @Transactional
     public Student updateStudentBasicInfo(int idStudent, StudentUpdateDTO studentDTO) {
@@ -140,22 +133,19 @@ public class StudentService {
         return studentRepository.save(student);
     }
 
-// GET specifique
     public Set<Langage> getLangagesByStudentId(int id) {
-        
         Student student = getStudentById(id);
         return student.getLangages();
     }
 
     public Set<Student> getStudentsByLangageId(int langageId) {
-        
         return studentRepository.findAll().stream()
                 .filter(student -> student.getLangages().stream()
                         .anyMatch(langage -> langage.getIdLangage() == langageId))
                 .collect(Collectors.toSet());
     }
 
-    public SchoolDTO getSchoolByStudentId(int idStudent) {
+    public SchoolCreationDTO getSchoolByStudentId(int idStudent) {
         Student student = getStudentById(idStudent);
         School school = student.getSchool();
 
@@ -163,13 +153,12 @@ public class StudentService {
             throw new StudentNotFoundException("School not found for student id: " + idStudent);
         }
 
-        // Créer et retourner un SchoolDTO
-        SchoolDTO schoolDTO = new SchoolDTO();
+        // Créer et retourner un SchoolCreationDTO
+        SchoolCreationDTO schoolDTO = new SchoolCreationDTO();
         schoolDTO.setIdSchool(school.getIdSchool());
         schoolDTO.setNameSchool(school.getNameSchool());
         schoolDTO.setPhotoSchool(school.getPhotoSchool());
 
         return schoolDTO;
     }
-
 }
