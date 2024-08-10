@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.Set;
@@ -34,6 +36,11 @@ public class Student {
     @JsonBackReference
     private School school;
     
+    @OneToMany(mappedBy = "student")
+    @JsonManagedReference
+    private Set<Notation> notations= new HashSet<>();
+    
+
     @ManyToMany
     @JoinTable(
         name = "student_has_langage",
@@ -100,5 +107,18 @@ public class Student {
 
     public void setSchool(School school) {
         this.school = school;
+    }
+
+    public Set<Notation> getNotations() {
+        return notations;
+    }
+
+    public void setNotations(Set<Notation> notations) {
+        this.notations = notations;
+    }
+
+    @JsonProperty("schoolId")
+    public Integer getSchoolId() {
+        return (school != null) ? school.getIdSchool() : null;
     }
 }

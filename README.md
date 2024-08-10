@@ -80,3 +80,5 @@ Commande pour ajouter un user curl -X POST http://localhost:8080/api/users -H "C
 1- Etudiant inscrit sans école, sans langage
 2- Associer une ecole 
 3- Associer des langages en fonction de l'école.
+
+12) Creation d'une table notation avec deux colonnes note et dateNote. Le but est de creer un ensemble de jeu test pour lancer des commandes telles que rechercher la meilleure note, la meilleure moyenne, etc... Je n'ai pas d'idée precise mais un exercice qui me trotte dans la tête. Car j'ai vu en commande SQL certaines fonctions dont je pourrais appliquer dans node.js, mais dans ce genre de backend je m'interroge. Et j'ai envie de mettre tout sur un serveur qui sera une prochaine étape. 

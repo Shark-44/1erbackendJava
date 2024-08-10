@@ -23,6 +23,10 @@ public class School {
     @OneToMany(mappedBy = "school")
     @JsonManagedReference
     private Set<Student> students = new HashSet<>();
+
+    @OneToMany(mappedBy = "school")
+    @JsonManagedReference
+    private Set<Notation> notations= new HashSet<>();
     
     @ManyToMany
     @JoinTable(
@@ -72,5 +76,13 @@ public class School {
 
     public void setStudents(Set<Student> students) {
         this.students = students;
+    }
+
+    public Set<Notation> getNotations() {
+        return notations;
+    }
+
+    public void setNotations(Set<Notation> notations) {
+        this.notations = notations;
     }
 }
