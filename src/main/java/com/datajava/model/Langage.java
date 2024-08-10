@@ -18,11 +18,11 @@ public class Langage {
     @Column(name = "nameLangage")
     private String nameLangage;
 
-    @ManyToMany(mappedBy = "langage")
+    @ManyToMany(mappedBy = "langages")
     @JsonBackReference
     private Set<Student> students = new HashSet<>();
     
-    @ManyToMany(mappedBy = "langage")
+    @ManyToMany(mappedBy = "langages")
     @JsonBackReference
     private Set<School> schools = new HashSet<>();
 
