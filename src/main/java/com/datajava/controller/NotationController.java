@@ -14,9 +14,14 @@ public class NotationController {
 
     @Autowired
     private NotationService notationService;
-
+    // step 1
     @GetMapping("/average/{schoolId}")
     public List<Map<String, Object>> getAverageBySchool(@PathVariable int schoolId) {
         return notationService.calculateAverageBySchool(schoolId);
+    }
+    // step 2
+    @GetMapping("/school/{schoolId}/notations")
+    public List<Map<String, Object>> getNotationsBySchoolId(@PathVariable int schoolId) {
+        return notationService.getNotationsBySchoolId(schoolId);
     }
 }
