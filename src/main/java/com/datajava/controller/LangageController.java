@@ -19,7 +19,7 @@ import java.util.Set;
 import java.util.Optional;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = "http://192.168.1.157:4200")
 @RequestMapping("/api/langages")
 public class LangageController {
     @Autowired

@@ -11,6 +11,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
 @RestController
+@CrossOrigin(origins = "http://192.168.1.157:4200" )
 public class AuthController {
 
     private final AuthService authService;
