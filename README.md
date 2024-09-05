@@ -1,6 +1,6 @@
 # 1er backend en Java
 
-Clowner mon projet:
+Cloner mon projet:
 
 Prérequis:
 
