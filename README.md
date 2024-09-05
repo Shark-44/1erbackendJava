@@ -1,5 +1,27 @@
 # 1er backend en Java
 
+Clowner mon projet:
+
+Prérequis:
+
+JDK 11 ou supérieur : Java Development Kit.
+Maven : Gestionnaire de dépendances.
+Git : Pour cloner le projet.
+MySQL 
+Eclipse ou autre IDE (facultatif mais recommandé).
+
+La configuration d'application.properties, j'ai laissé un fichier texte en exemple
+
+Installer les dépendances:
+
+mvn clean install
+
+Executer le projet:
+
+mvn spring-boot:run
+
+# Le pourquoi et comment j'ai avancé dans ce projet
+
 Créant une bdd sous MySQL j'ai opté pour 3 entités Studient, School et Langage
 
 Le but c'est de pouvoir étudier la nuance avec node et démontrer que je peux construire en java
@@ -85,3 +107,7 @@ Commande pour ajouter un user curl -X POST http://localhost:8080/api/users -H "C
 
 13) Aujourd'hui je cherche a mettre mon backend sous docker et le faire fonctionner avec ma bdd qui est sous docker. l'ajout d'un script "wait-for-it.sh" m'assure le démarrage du container mysql avant le api backend.
 Prochaine étape faire de même avec le front et de pouvoir consulter mon projet depuis une url.
+
+14) Mon ensemble est fonctionnel sur un nom domaine. Comme il s'agit d'un serveur maison demandez moi le lien a l'adresse suivante joanny.bernardeau@gmail.com.
+Le frontend associé est https://github.com/Shark-44/API-Angular-et-backend-Spring-Boot 
+

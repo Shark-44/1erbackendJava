@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Set;
 
 @RestController
-@CrossOrigin(origins = "http://192.168.1.157:4200") //avant 5173
+
 @RequestMapping("/api/students")
 public class StudentController {
 

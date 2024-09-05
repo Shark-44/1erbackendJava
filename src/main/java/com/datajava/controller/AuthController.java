@@ -6,12 +6,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
 @RestController
-@CrossOrigin(origins = "http://192.168.1.157:4200" )
+@CrossOrigin(origins = "${cors.allowed.origins}", allowCredentials = "true", allowedHeaders = "*")
+
 public class AuthController {
 
     private final AuthService authService;

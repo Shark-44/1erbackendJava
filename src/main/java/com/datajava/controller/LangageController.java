@@ -6,7 +6,6 @@ import com.datajava.dto.SchoolDTO;
 import com.datajava.model.Student;
 import com.datajava.model.Langage;
 import com.datajava.service.LangageService;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.MediaType;
@@ -19,7 +18,7 @@ import java.util.Set;
 import java.util.Optional;
 
 @RestController
-@CrossOrigin(origins = "http://192.168.1.157:4200")
+
 @RequestMapping("/api/langages")
 public class LangageController {
     @Autowired

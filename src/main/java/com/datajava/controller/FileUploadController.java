@@ -13,7 +13,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 @RestController
-@CrossOrigin(origins = "http://192.168.1.157:4200")
+
 @RequestMapping("/api/files")
 public class FileUploadController {
 
